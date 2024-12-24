@@ -1,9 +1,12 @@
 const express = require('express');
 const axios = require('axios');
-require('dotenv').config();  // Load environment variables from .env
+require('dotenv').config();  
+const cors = require('cors');// Load environment variables from .env
 
 const app = express();
+
 const port = 5000;
+app.use(cors());
 
 const thingSpeakReadAPIKey = process.env.THINGSPEAK_READ_API_KEY;
 const channelID = process.env.THINGSPEAK_CHANNEL_ID;
