@@ -1,19 +1,19 @@
 const express = require('express');
-const cors = require('cors');
 const axios = require('axios');
 const app = express();
 const port = 5000;
 
-app.use(cors());
+// Replace with your ThingSpeak Read API Key and Channel ID
+const thingSpeakReadAPIKey = 'PYLM6TN4B3HFDCON';
+const channelID = '2794295';
 
-// Route to fetch temperature from ESP32
-app.get('/temperature', async (req, res) => {
+app.get('/get-temperature', async (req, res) => {
   try {
-    const esp32_ip = 'http://192.168.87.200/temperature'; // Replace with your ESP32 local IP
-    const response = await axios.get(esp32_ip);
-    res.json(response.data); // Send the data received from ESP32 to the client
+    const response = await axios.get(`https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${thingSpeakReadAPIKey}&results=1`);
+    const temperatureData = response.data.feeds[0].field1;  // Access the latest temperature data
+    res.json({ temperature: temperatureData });
   } catch (error) {
-    console.error('Error fetching temperature from ESP32:', error);
+    console.error('Error fetching temperature from ThingSpeak:', error);
     res.status(500).json({ message: 'Failed to fetch temperature' });
   }
 });
