@@ -11,7 +11,7 @@ app.use(cors());
 const fetchUrl = process.env.LOCAL_ID;
 
 // Route to fetch temperature from ESP32
-app.get('/temperature', async (req, res) => {
+app.get('/get-temperature', async (req, res) => {
   try {
     const esp32_ip = `${fetchUrl}/temperature`; // Replace with your ESP32 local IP
     const response = await axios.get(esp32_ip);
